@@ -1,0 +1,632 @@
+{
+    "imports": [
+        "github.com/project-flogo/flow",
+        "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/log",
+        "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/parsejson",
+        "github.com/project-flogo/contrib/activity/actreturn",
+        "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/mapper",
+        "git.tibco.com/git/product/ipaas/wi-contrib.git/contributions/General/activity/rest",
+        "github.com/project-flogo/contrib/activity/counter",
+        "git.tibco.com/git/product/ipaas/wi-plugins.git/contributions/Messaging/trigger/tcmtrigger",
+        "git.tibco.com/git/product/ipaas/wi-contrib.git/function/utility",
+        "github.com/project-flogo/contrib/function/string",
+        "github.com/project-flogo/contrib/function/array"
+    ],
+    "name": "UBIoTv2",
+    "description": " ",
+    "version": "1.1.0",
+    "type": "flogo:app",
+    "appModel": "1.1.1",
+    "triggers": [
+        {
+            "ref": "#tcmtrigger",
+            "name": "tibco-messaging-tcm-trigger",
+            "description": "This trigger receives a message from TIBCO Cloud Messaging service",
+            "settings": {},
+            "id": "MessageSubscriber",
+            "handlers": [
+                {
+                    "description": "",
+                    "settings": {
+                        "tcmConnection": {
+                            "id": "fd9dcfd0-0744-11ea-a053-efc365436972",
+                            "type": "flogo:connector",
+                            "version": "1.1.0",
+                            "name": "tibco-eftl",
+                            "hashTags": [],
+                            "inputMappings": {},
+                            "outputMappings": {},
+                            "iteratorMappings": {},
+                            "title": "TIBCO Cloud Messaging Connector",
+                            "description": "This is TIBCO Cloud Messaging connector",
+                            "ref": "git.tibco.com/git/product/ipaas/wi-plugins.git/contributions/Messaging/connector/tcm",
+                            "settings": [
+                                {
+                                    "name": "name",
+                                    "type": "string",
+                                    "required": true,
+                                    "display": {
+                                        "name": "Connection Name",
+                                        "description": "Name of the connection"
+                                    },
+                                    "value": "TIBCO Cloud Messaging - SensorTag"
+                                },
+                                {
+                                    "name": "description",
+                                    "type": "string",
+                                    "display": {
+                                        "name": "Description",
+                                        "description": "Connection description"
+                                    },
+                                    "value": ""
+                                },
+                                {
+                                    "name": "url",
+                                    "type": "string",
+                                    "required": true,
+                                    "display": {
+                                        "name": "Connection URL",
+                                        "description": "TIBCO Cloud Messaging connection url",
+                                        "appPropertySupport": true
+                                    },
+                                    "value": "=$property[\"Messaging.TIBCO_Cloud_Messaging_-_SensorTag.Connection_URL\"]"
+                                },
+                                {
+                                    "name": "authKey",
+                                    "type": "string",
+                                    "required": true,
+                                    "display": {
+                                        "name": "Authentication Key",
+                                        "description": "Authentication key",
+                                        "type": "password",
+                                        "appPropertySupport": true
+                                    },
+                                    "value": "=$property[\"Messaging.TIBCO_Cloud_Messaging_-_SensorTag.Authentication_Key\"]"
+                                }
+                            ],
+                            "outputs": [],
+                            "inputs": [],
+                            "handler": {
+                                "settings": []
+                            },
+                            "reply": [],
+                            "s3Prefix": "Tibco",
+                            "key": "Tibco/Messaging/connector/tcm/connector.json",
+                            "display": {
+                                "description": "This is TIBCO Cloud Messaging connector",
+                                "category": "Messaging",
+                                "visible": true,
+                                "smallIcon": "tcm.png"
+                            },
+                            "actions": [
+                                {
+                                    "name": "Save",
+                                    "display": {
+                                        "readonly": false,
+                                        "valid": true,
+                                        "visible": true
+                                    }
+                                }
+                            ],
+                            "feature": {},
+                            "propertyMap": {},
+                            "keyfield": "name",
+                            "isValid": true,
+                            "lastUpdatedTime": 1573782355016,
+                            "user": "say63dt7u4v5srfonag6bkhriaqk4x2n",
+                            "connectorName": "TIBCO Cloud Messaging - SensorTag",
+                            "connectorDescription": " "
+                        },
+                        "durableSub": false,
+                        "durableName": "",
+                        "durableType": "Shared",
+                        "destination": "iot",
+                        "matcher": ""
+                    },
+                    "action": {
+                        "ref": "github.com/project-flogo/flow",
+                        "settings": {
+                            "flowURI": "res://flow:SensorRx"
+                        },
+                        "input": {
+                            "stringValue": "=utility.renderJSON($.message, false)",
+                            "channel": "tcm"
+                        }
+                    },
+                    "schemas": {
+                        "output": {
+                            "message": {
+                                "type": "json",
+                                "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"temperature\":{\"type\":\"string\"},\"humidity\":{\"type\":\"string\"},\"pressure\":{\"type\":\"string\"},\"gyro_x\":{\"type\":\"string\"},\"gyro_y\":{\"type\":\"string\"},\"gyro_z\":{\"type\":\"string\"},\"accel_x\":{\"type\":\"string\"},\"accel_y\":{\"type\":\"string\"},\"accel_z\":{\"type\":\"string\"},\"light\":{\"type\":\"string\"},\"mag_x\":{\"type\":\"string\"},\"mag_y\":{\"type\":\"string\"},\"mag_z\":{\"type\":\"string\"},\"key\":{\"type\":\"string\"},\"uptime\":{\"type\":\"string\"}}}",
+                                "fe_metadata": "{\n    \"temperature\":\"value\",\n    \"humidity\":\"value\",\n    \"pressure\":\"value\",\n    \"gyro_x\":\"value\",\n    \"gyro_y\":\"value\",\n    \"gyro_z\":\"value\",\n    \"accel_x\":\"value\",\n    \"accel_y\":\"value\",\n    \"accel_z\":\"value\",\n    \"light\":\"value\",\n    \"mag_x\":\"value\",\n    \"mag_y\":\"value\",\n    \"mag_z\":\"value\",\n    \"key\":\"value\",\n    \"uptime\":\"value\"\n}"
+                            }
+                        }
+                    }
+                }
+            ]
+        }
+    ],
+    "resources": [
+        {
+            "id": "flow:SensorRx",
+            "data": {
+                "name": "SensorRx",
+                "description": "",
+                "links": [
+                    {
+                        "id": 1,
+                        "from": "LogMessage",
+                        "to": "ParseJSONActivity",
+                        "type": "default"
+                    },
+                    {
+                        "id": 2,
+                        "from": "ParseJSONActivity",
+                        "to": "Return",
+                        "type": "default"
+                    },
+                    {
+                        "id": 3,
+                        "from": "ParseJSONActivity",
+                        "to": "LogMessage1",
+                        "type": "expression",
+                        "value": "$activity[ParseJSONActivity].jsonObject.key==\"1\""
+                    },
+                    {
+                        "id": 4,
+                        "from": "LogMessage1",
+                        "to": "Mapper",
+                        "type": "default"
+                    },
+                    {
+                        "id": 5,
+                        "from": "Mapper",
+                        "to": "InvokeRESTService",
+                        "type": "default"
+                    },
+                    {
+                        "id": 6,
+                        "from": "InvokeRESTService",
+                        "to": "LogMessage2",
+                        "type": "default"
+                    },
+                    {
+                        "id": 7,
+                        "from": "LogMessage2",
+                        "to": "Return5",
+                        "type": "default"
+                    },
+                    {
+                        "id": 8,
+                        "from": "LogMessage2",
+                        "to": "IncrementCounter",
+                        "type": "expression",
+                        "value": "string.equals($activity[InvokeRESTService].responseBody.AlertLevel, \"WARNING\")"
+                    },
+                    {
+                        "id": 9,
+                        "from": "IncrementCounter",
+                        "to": "GetCount",
+                        "type": "default"
+                    },
+                    {
+                        "id": 10,
+                        "from": "GetCount",
+                        "to": "Return6",
+                        "type": "default"
+                    },
+                    {
+                        "id": 11,
+                        "from": "GetCount",
+                        "to": "LogIgnore",
+                        "type": "expression",
+                        "value": "(($activity[GetCount].value)>1)"
+                    },
+                    {
+                        "id": 12,
+                        "from": "LogIgnore",
+                        "to": "Return3",
+                        "type": "default"
+                    },
+                    {
+                        "id": 13,
+                        "from": "GetCount",
+                        "to": "LogTakeAction",
+                        "type": "expression",
+                        "value": "(($activity[GetCount].value)<=1)"
+                    },
+                    {
+                        "id": 14,
+                        "from": "LogTakeAction",
+                        "to": "Return4",
+                        "type": "default"
+                    },
+                    {
+                        "id": 15,
+                        "from": "LogMessage2",
+                        "to": "ResetCounter",
+                        "type": "expression",
+                        "value": "string.equals($activity[InvokeRESTService].responseBody.AlertLevel,\"OK\")"
+                    },
+                    {
+                        "id": 16,
+                        "from": "ResetCounter",
+                        "to": "LogMessage5",
+                        "type": "default"
+                    },
+                    {
+                        "id": 17,
+                        "from": "LogMessage5",
+                        "to": "Return2",
+                        "type": "default"
+                    }
+                ],
+                "tasks": [
+                    {
+                        "id": "LogMessage",
+                        "name": "LogMessage",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "=string.concat(\"Message received from [\", $flow.channel, \"]: \", $flow.stringValue)"
+                            }
+                        }
+                    },
+                    {
+                        "id": "ParseJSONActivity",
+                        "name": "ParseJSONActivity",
+                        "description": "Parses JSON string into JSON object",
+                        "activity": {
+                            "ref": "#parsejson",
+                            "input": {
+                                "validate": false,
+                                "jsonString": "=$flow.stringValue"
+                            },
+                            "schemas": {
+                                "output": {
+                                    "jsonObject": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"temperature\":{\"type\":\"string\"},\"humidity\":{\"type\":\"string\"},\"pressure\":{\"type\":\"string\"},\"gyro_x\":{\"type\":\"string\"},\"gyro_y\":{\"type\":\"string\"},\"gyro_z\":{\"type\":\"string\"},\"accel_x\":{\"type\":\"string\"},\"accel_y\":{\"type\":\"string\"},\"accel_z\":{\"type\":\"string\"},\"light\":{\"type\":\"string\"},\"mag_x\":{\"type\":\"string\"},\"mag_y\":{\"type\":\"string\"},\"mag_z\":{\"type\":\"string\"},\"key\":{\"type\":\"string\"},\"uptime\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\n    \"temperature\":\"value\",\n    \"humidity\":\"value\",\n    \"pressure\":\"value\",\n    \"gyro_x\":\"value\",\n    \"gyro_y\":\"value\",\n    \"gyro_z\":\"value\",\n    \"accel_x\":\"value\",\n    \"accel_y\":\"value\",\n    \"accel_z\":\"value\",\n    \"light\":\"value\",\n    \"mag_x\":\"value\",\n    \"mag_y\":\"value\",\n    \"mag_z\":\"value\",\n    \"key\":\"value\",\n    \"uptime\":\"value\"\n}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return",
+                        "name": "Return",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn",
+                            "settings": {
+                                "mappings": {
+                                    "message": "No match to key filter"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "LogMessage1",
+                        "name": "LogMessage1",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "Invoked branch for SensorTag ID=1"
+                            }
+                        }
+                    },
+                    {
+                        "id": "Mapper",
+                        "name": "Mapper",
+                        "description": "Mapper Activity",
+                        "activity": {
+                            "ref": "#mapper",
+                            "input": {
+                                "input": {
+                                    "mapping": {
+                                        "data": [
+                                            {
+                                                "pressure": "=$activity[ParseJSONActivity].jsonObject.pressure",
+                                                "gyro_x": "=$activity[ParseJSONActivity].jsonObject.gyro_x",
+                                                "gyro_y": "=$activity[ParseJSONActivity].jsonObject.gyro_y",
+                                                "gyro_z": "=$activity[ParseJSONActivity].jsonObject.gyro_z",
+                                                "accel_x": "=$activity[ParseJSONActivity].jsonObject.accel_x",
+                                                "accel_y": "=$activity[ParseJSONActivity].jsonObject.accel_y",
+                                                "accel_z": "=$activity[ParseJSONActivity].jsonObject.accel_z",
+                                                "light": "=$activity[ParseJSONActivity].jsonObject.light",
+                                                "mag_x": "=$activity[ParseJSONActivity].jsonObject.mag_x",
+                                                "mag_y": "=$activity[ParseJSONActivity].jsonObject.mag_y",
+                                                "mag_z": "=$activity[ParseJSONActivity].jsonObject.mag_z",
+                                                "key": "=$activity[ParseJSONActivity].jsonObject.key",
+                                                "uptime": "=$activity[ParseJSONActivity].jsonObject.uptime",
+                                                "temperature": "=$activity[ParseJSONActivity].jsonObject.temperature",
+                                                "humidity": "=$activity[ParseJSONActivity].jsonObject.humidity"
+                                            }
+                                        ]
+                                    }
+                                }
+                            },
+                            "schemas": {
+                                "input": {
+                                    "input": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"data\":{\"type\":\"array\",\"items\":{\"type\":\"object\",\"properties\":{\"temperature\":{\"type\":\"string\"},\"humidity\":{\"type\":\"string\"},\"pressure\":{\"type\":\"string\"},\"gyro_x\":{\"type\":\"string\"},\"gyro_y\":{\"type\":\"string\"},\"gyro_z\":{\"type\":\"string\"},\"accel_x\":{\"type\":\"string\"},\"accel_y\":{\"type\":\"string\"},\"accel_z\":{\"type\":\"string\"},\"light\":{\"type\":\"string\"},\"mag_x\":{\"type\":\"string\"},\"mag_y\":{\"type\":\"string\"},\"mag_z\":{\"type\":\"string\"},\"key\":{\"type\":\"string\"},\"uptime\":{\"type\":\"string\"}}}}}}",
+                                        "fe_metadata": "{ \"data\": [{\n    \"temperature\":\"value\",\n    \"humidity\":\"value\",\n    \"pressure\":\"value\",\n    \"gyro_x\":\"value\",\n    \"gyro_y\":\"value\",\n    \"gyro_z\":\"value\",\n    \"accel_x\":\"value\",\n    \"accel_y\":\"value\",\n    \"accel_z\":\"value\",\n    \"light\":\"value\",\n    \"mag_x\":\"value\",\n    \"mag_y\":\"value\",\n    \"mag_z\":\"value\",\n    \"key\":\"value\",\n    \"uptime\":\"value\"\n}]\n}"
+                                    }
+                                },
+                                "output": {
+                                    "output": {
+                                        "type": "json",
+                                        "value": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"data\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"temperature\": {\n            \"type\": \"string\"\n          },\n          \"humidity\": {\n            \"type\": \"string\"\n          },\n          \"pressure\": {\n            \"type\": \"string\"\n          },\n          \"gyro_x\": {\n            \"type\": \"string\"\n          },\n          \"gyro_y\": {\n            \"type\": \"string\"\n          },\n          \"gyro_z\": {\n            \"type\": \"string\"\n          },\n          \"accel_x\": {\n            \"type\": \"string\"\n          },\n          \"accel_y\": {\n            \"type\": \"string\"\n          },\n          \"accel_z\": {\n            \"type\": \"string\"\n          },\n          \"light\": {\n            \"type\": \"string\"\n          },\n          \"mag_x\": {\n            \"type\": \"string\"\n          },\n          \"mag_y\": {\n            \"type\": \"string\"\n          },\n          \"mag_z\": {\n            \"type\": \"string\"\n          },\n          \"key\": {\n            \"type\": \"string\"\n          },\n          \"uptime\": {\n            \"type\": \"string\"\n          }\n        }\n      }\n    }\n  }\n}",
+                                        "fe_metadata": "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"data\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"temperature\": {\n            \"type\": \"string\"\n          },\n          \"humidity\": {\n            \"type\": \"string\"\n          },\n          \"pressure\": {\n            \"type\": \"string\"\n          },\n          \"gyro_x\": {\n            \"type\": \"string\"\n          },\n          \"gyro_y\": {\n            \"type\": \"string\"\n          },\n          \"gyro_z\": {\n            \"type\": \"string\"\n          },\n          \"accel_x\": {\n            \"type\": \"string\"\n          },\n          \"accel_y\": {\n            \"type\": \"string\"\n          },\n          \"accel_z\": {\n            \"type\": \"string\"\n          },\n          \"light\": {\n            \"type\": \"string\"\n          },\n          \"mag_x\": {\n            \"type\": \"string\"\n          },\n          \"mag_y\": {\n            \"type\": \"string\"\n          },\n          \"mag_z\": {\n            \"type\": \"string\"\n          },\n          \"key\": {\n            \"type\": \"string\"\n          },\n          \"uptime\": {\n            \"type\": \"string\"\n          }\n        }\n      }\n    }\n  }\n}"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "InvokeRESTService",
+                        "name": "InvokeRESTService",
+                        "description": "Simple REST Activity",
+                        "settings": {
+                            "iterate": "=$activity[Mapper].output.data"
+                        },
+                        "type": "iterator",
+                        "activity": {
+                            "ref": "#rest",
+                            "input": {
+                                "Method": "GET",
+                                "Uri": "https://events.cloud.tibcoapps.com/820b4890-6bbb-4a9f-8394-283415ae662a/Channels/HTTP/CalculateResponse",
+                                "Timeout": 0,
+                                "requestType": "application/json",
+                                "Use certificate for verification": false,
+                                "Server Certificate": "",
+                                "proxy": "",
+                                "headers": {
+                                    "mapping": {
+                                        "Accept": "application/json"
+                                    }
+                                },
+                                "queryParams": {
+                                    "mapping": {
+                                        "accel_x": "=$iteration[value].accel_x",
+                                        "accel_y": "=$iteration[value].accel_y",
+                                        "uptime": "=$iteration[value].uptime"
+                                    }
+                                }
+                            },
+                            "output": {
+                                "configureResponseCodes": false,
+                                "responseType": "application/json"
+                            },
+                            "schemas": {
+                                "input": {
+                                    "queryParams": {
+                                        "type": "json",
+                                        "value": "{\"type\":\"object\",\"properties\":{\"accel_x\":{\"type\":\"string\"},\"accel_y\":{\"type\":\"string\"},\"uptime\":{\"type\":\"string\"}},\"required\":[]}",
+                                        "fe_metadata": "[{\"parameterName\":\"accel_x\",\"type\":\"string\",\"repeating\":\"\",\"required\":\"\"},{\"parameterName\":\"accel_y\",\"type\":\"string\",\"repeating\":\"\",\"required\":\"\"},{\"parameterName\":\"uptime\",\"type\":\"string\",\"repeating\":\"\",\"required\":\"\"}]"
+                                    },
+                                    "headers": {
+                                        "type": "json",
+                                        "value": "{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}",
+                                        "fe_metadata": "[{\"parameterName\":\"Accept\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Charset\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Encoding\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Type\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Length\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Connection\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Pragma\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
+                                    }
+                                },
+                                "output": {
+                                    "responseBody": {
+                                        "type": "json",
+                                        "value": "{\"$schema\":\"http://json-schema.org/draft-04/schema#\",\"type\":\"object\",\"properties\":{\"attributes\":{\"type\":\"object\",\"properties\":{\"Id\":{\"type\":\"number\"}}},\"Message\":{\"type\":\"string\"},\"AlertLevel\":{\"type\":\"string\"},\"NotifyCellNumber\":{\"type\":\"string\"},\"NotifyPerson\":{\"type\":\"string\"}}}",
+                                        "fe_metadata": "{\n  \"attributes\": {\n    \"Id\": 38\n  },\n  \"Message\": \"Cold Beverage\",\n  \"AlertLevel\": \"Cold\",\n  \"NotifyCellNumber\": \"+15558675309\",\n  \"NotifyPerson\": \"Buck Rogers\"\n}"
+                                    },
+                                    "headers": {
+                                        "type": "json",
+                                        "value": "{\"type\":\"object\",\"properties\":{\"Accept\":{\"type\":\"string\",\"visible\":false},\"Accept-Charset\":{\"type\":\"string\",\"visible\":false},\"Accept-Encoding\":{\"type\":\"string\",\"visible\":false},\"Content-Type\":{\"type\":\"string\",\"visible\":false},\"Content-Length\":{\"type\":\"string\",\"visible\":false},\"Connection\":{\"type\":\"string\",\"visible\":false},\"Cookie\":{\"type\":\"string\",\"visible\":false},\"Pragma\":{\"type\":\"string\",\"visible\":false}},\"required\":[]}",
+                                        "fe_metadata": "[{\"parameterName\":\"Accept\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Charset\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Accept-Encoding\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Type\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Content-Length\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Connection\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Cookie\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false},{\"parameterName\":\"Pragma\",\"type\":\"string\",\"repeating\":\"false\",\"required\":\"false\",\"visible\":false}]"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "LogMessage2",
+                        "name": "LogMessage2",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "=utility.renderJSON($activity[InvokeRESTService].responseBody,true)"
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return5",
+                        "name": "Return5",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    },
+                    {
+                        "id": "IncrementCounter",
+                        "name": "IncrementCounter",
+                        "description": "Global Counter Activity",
+                        "activity": {
+                            "ref": "#counter",
+                            "settings": {
+                                "counterName": "messages",
+                                "op": "increment"
+                            }
+                        }
+                    },
+                    {
+                        "id": "GetCount",
+                        "name": "GetCount",
+                        "description": "Global Counter Activity",
+                        "activity": {
+                            "ref": "#counter",
+                            "settings": {
+                                "counterName": "messages",
+                                "op": "get"
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return6",
+                        "name": "Return6",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn"
+                        }
+                    },
+                    {
+                        "id": "LogIgnore",
+                        "name": "LogIgnore",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "Counter greater than 2"
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return3",
+                        "name": "Return3",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn",
+                            "settings": {
+                                "mappings": {
+                                    "message": "Key match, Ignoring notification activity"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "LogTakeAction",
+                        "name": "LogTakeAction",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "Counter <= 2"
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return4",
+                        "name": "Return4",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn",
+                            "settings": {
+                                "mappings": {
+                                    "message": "Key match, Action activated"
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "id": "ResetCounter",
+                        "name": "ResetCounter",
+                        "description": "Global Counter Activity",
+                        "activity": {
+                            "ref": "#counter",
+                            "settings": {
+                                "counterName": "messages",
+                                "op": "reset"
+                            }
+                        }
+                    },
+                    {
+                        "id": "LogMessage5",
+                        "name": "LogMessage5",
+                        "description": "Simple Log Message Activity",
+                        "activity": {
+                            "ref": "#log",
+                            "input": {
+                                "Log Level": "INFO",
+                                "flowInfo": false,
+                                "message": "Counter reset"
+                            }
+                        }
+                    },
+                    {
+                        "id": "Return2",
+                        "name": "Return2",
+                        "description": "Simple Return Activity",
+                        "activity": {
+                            "ref": "#actreturn",
+                            "settings": {
+                                "mappings": {
+                                    "message": "Key match, reseting trigger"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "metadata": {
+                    "input": [
+                        {
+                            "name": "topic",
+                            "type": "string"
+                        },
+                        {
+                            "name": "retained",
+                            "type": "boolean"
+                        },
+                        {
+                            "name": "qos",
+                            "type": "integer"
+                        },
+                        {
+                            "name": "stringValue",
+                            "type": "string"
+                        },
+                        {
+                            "name": "channel",
+                            "type": "string"
+                        }
+                    ],
+                    "output": [
+                        {
+                            "name": "message",
+                            "type": "string"
+                        }
+                    ],
+                    "fe_metadata": {
+                        "input": "{\"type\":\"object\",\"title\":\"MQTTSubscriber\",\"properties\":{\"topic\":{\"type\":\"string\",\"required\":false},\"retained\":{\"type\":\"boolean\",\"required\":false},\"qos\":{\"type\":\"integer\",\"required\":false},\"stringValue\":{\"type\":\"string\",\"required\":false},\"channel\":{\"type\":\"string\",\"required\":false}}}",
+                        "output": "{\n    \"message\": \"value\"\n}"
+                    }
+                }
+            }
+        }
+    ],
+    "properties": [
+        {
+            "name": "Messaging.TIBCO_Cloud_Messaging_-_SensorTag.Connection_URL",
+            "type": "string",
+            "value": "wss://01DSBZEBFMMD8RB1EDJNENK2MF-apps.messaging.cloud.tibco.com/channel"
+        },
+        {
+            "name": "Messaging.TIBCO_Cloud_Messaging_-_SensorTag.Authentication_Key",
+            "type": "string",
+            "value": "SECRET:3gQfnnyBvCtPLbI0HAiC+bI53syDCR3LE01ZnqDxSIv1gsBOILQgvHi3AJeoyo6s"
+        }
+    ],
+    "contrib": "W3sicmVmIjoiZ2l0LnRpYmNvLmNvbS9naXQvcHJvZHVjdC9pcGFhcy93aS1jb250cmliLmdpdC9jb250cmlidXRpb25zL0dlbmVyYWwiLCJzM2xvY2F0aW9uIjoiVGliY28vR2VuZXJhbCJ9LHsicmVmIjoiZ2l0aHViLmNvbS9wcm9qZWN0LWZsb2dvL2NvbnRyaWIvYWN0aXZpdHkvY291bnRlciIsInMzbG9jYXRpb24iOiJ7VVNFUklEfS9EZWZhdWx0L2FjdGl2aXR5L2NvdW50ZXIifSx7InJlZiI6ImdpdC50aWJjby5jb20vZ2l0L3Byb2R1Y3QvaXBhYXMvd2ktcGx1Z2lucy5naXQvY29udHJpYnV0aW9ucy9NZXNzYWdpbmciLCJzM2xvY2F0aW9uIjoiVGliY28vTWVzc2FnaW5nIn1d",
+    "fe_metadata": "UEsDBAoAAAAIADiFck+rqSRGFQAAABMAAAAIAAAAYXBwLmpzb26rViopykxPTy1yy8kvL1ayio6tBQBQSwECFAAKAAAACAA4hXJPq6kkRhUAAAATAAAACAAAAAAAAAAAAAAAAAAAAAAAYXBwLmpzb25QSwUGAAAAAAEAAQA2AAAAOwAAAAAA"
+}
