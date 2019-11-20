@@ -55,8 +55,7 @@ Before proceeding, we need to take a moment to add and configure the Twilio conn
 3. Update connector details
 	- Connection Name: Twilio
 	- Account SID: `ACf3cb8b4c733657bb1d6dc2f6e28a7a6f`
-	- Auth Token: `6e4f1cd0809a0fabec8eaef377e091f` (expired)
-	- 2c67517a8ccec262b52f60bc51e1e30a
+	- Auth Token: `6e4f1cd0809a0fabec8eaef377e091f` (expired) 
 
 <img src="./img/create_connection.png" width=700 alt="Add new connection"/>
 
