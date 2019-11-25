@@ -2,7 +2,20 @@
 
 The CC3200 SensorTag has a built-in webserver which displays various bits of useful information.<br>Props to wtremmel and the repo, [https://github.com/wtremmel/wifi-sensortag](https://github.com/wtremmel/wifi-sensortag) for documenting the various pages available.
 
-For this workshop, we're specifically polling for data from /param_sensortag_poll.html.  The page source will look something like below:
+## Get Started - Connect SensorTag to WiFi
+
+Connect the CC3200 SensorTag to your WiFi network.  WPA2 and Open seem to be the only network security options that work, even though WEP is listed as an option.
+
+1. Download the SensorTag app from the Apple App Store.  (An iPhone with iOS 9.6 proved to work, while newer iOS failed to connect to the SensorTag).
+2. Pull the tab on the SensorTag battery to power on.
+3. Connect to the SensorTag access point, e.g. SensorTag-XX
+4. Launch the SensorTag app and enter your existing WiFi network name, password, and security setting.
+
+> Warning: Holding down the power button on the SensorTag for 5+ seconds will reset the device and firmware.
+
+## Acquiring Sensor Data
+ 
+For this workshop, we're specifically polling for data from **/param_sensortag_poll.html**.  The page source will look something like below:
 ```html
 <html>
 <body>
