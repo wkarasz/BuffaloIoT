@@ -27,7 +27,9 @@ The following Flogo Enterprise application,[IoTWorkshopBuffalo.json](../workshop
 
 To use this application in your environment, you'll need to **update the TCM connector with your configuration details**.  Otherwise, compile the application for your target architecture and launch from the command line, providing your FLOGO application properties.
 
-`FLOGO_APP_PROPS_OVERRIDE="Sensor.URL=http://192.168.1.24/param_sensortag_poll.html,Sensor.ID=XXX" nohup ./IoTWorkshop-linux-arm > /dev/null 2>&1 &`
+```
+FLOGO_APP_PROPS_OVERRIDE="Sensor.URL=http://192.168.1.24/param_sensortag_poll.html,Sensor.ID=XXX" nohup ./IoTWorkshop-linux-arm > /dev/null 2>&1 &
+```
 
 > TIP: To compile a Flogo Enterprise application for a RaspberryPi, export the application json and use the *builder* utility in your Flogo Enterprise **bin** directory.  Use the GOARM environment variable as part of the build command.
 >
