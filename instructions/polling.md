@@ -32,6 +32,7 @@ To use this application in your environment, you'll need to **update the TCM con
 > TIP: To compile a Flogo Enterprise application for a RaspberryPi, export the application json and use the *builder* utility in your Flogo Enterprise **bin** directory.  Use the GOARM environment variable as part of the build command.
 >
 > e.g. Where Flogo Enterprise has been installed on a Mac, use **builder-darwin_amd64**:
+>
 > GOARM=7 ./builder-darwin_amd64 build -f ~/Downloads/IoTWorkshop.json -p linux/arm -o ~/Downloads/IoTWorkshop
 
 
