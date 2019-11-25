@@ -28,6 +28,7 @@ For this workshop, all the data is sent to TIBCO Cloud Messaging over a secure w
 <br>
 In this hands-on lab, you will import an existing TIBCO Cloud application that connects to the TIBCO Cloud Messaging service and filter on your SensorTag data.
 <br>
+
 > Looking for details on how to scrape data off your own SensorTag?  Check out this [page](polling.md).
 
 ## Get Started
