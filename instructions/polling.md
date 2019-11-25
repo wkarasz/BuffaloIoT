@@ -15,7 +15,7 @@ Connect the CC3200 SensorTag to your WiFi network.  WPA2 and Open seem to be the
 
 ## Acquiring Sensor Data
  
-For this workshop, we're specifically polling for data from **/param_sensortag_poll.html**.  The page source will look something like below:
+For this workshop, data is pulled from **/param_sensortag_poll.html**.  The page source will look something like below:
 ```html
 <html>
 <body>
