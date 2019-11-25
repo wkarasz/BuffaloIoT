@@ -21,6 +21,6 @@ The labs are designed to help you understand the fundamentals and serve as build
 [Connect to your SensorTag](instructions/connectsensortag.md)<br>
 [Rules and event decisions](instructions/rulestable.md)<br>
 [Integrate event API](instructions/tci_eventapp.md)<br>
-
+[Flow control](instructions/ratelimit.md)<br>
 
 Next step: [Connect SensorTag](instructions/connectsensortag.md)

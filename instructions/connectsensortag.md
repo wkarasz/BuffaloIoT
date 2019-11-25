@@ -6,6 +6,9 @@ The TI SensorTag CC3200 is jam packed with sensors<br>
 <br>
 For this workshop, all the data is sent to TIBCO Cloud Messaging over a secure websocket connection.  Each sensor is pumping out data once per second, tagged with its unique id (key).<br>
 <br>
+> For those looking for more details on how data is pulled off the SensorTag, check out this [page](polling.md).
+
+
 ```json
 {
     "key":"value",
